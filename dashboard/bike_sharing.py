@@ -23,6 +23,32 @@ st.markdown("""
 # Load the dataset
 data = pd.read_csv('https://raw.githubusercontent.com/callmev-git/dicoding-project-1/main/Bike-sharing-dataset/hour.csv')
 
+attributes = """
+- **instant**: index
+- **dteday** : tanggal penyewaan sepeda
+- **season** : musim (1: Musim Semi, 2: Musim Panas, 3: Musim Gugur, 4: Musim Salju)
+- **yr** : tahun (0: 2011, 1: 2012)
+- **mnth** : bulan (1 hingga 12)
+- **hr** : jam (0 hingga 23)
+- **holiday** : hari libur
+- **weekday** : hari dalam seminggu
+- **workingday** : hari kerja (jika hari kerja nilainya 1, jika libur nilainya 0)
+- **weathersit** :
+  - 1: Cerah, Sedikit awan, Berawan sebagian, Berawan sebagian
+  - 2: Kabut + Berawan, Kabut + Awan pecah, Kabut + Sedikit awan, Kabut
+  - 3: Salju Ringan, Hujan Ringan + Badai Petir + Awan Tersebar, Hujan Ringan + Awan Tersebar
+  - 4: Hujan Lebat + Es + Badai Petir + Kabut, Salju + Kabut
+- **temp**: Suhu dalam Celcius
+- **atemp**: Suhu yang dirasakan dalam Celsius.
+- **hum**: Kelembaban yang dinormalkan. Nilainya dibagi menjadi 100 (maks)
+- **windspeed**: Kecepatan angin yang dinormalkan. Nilainya dibagi menjadi 67 (maks)
+- **casual**: jumlah peminjam sepeda biasa, yang tidak berlangganan
+- **registered**: jumlah peminjam sepeda yang terdaftar keanggotaan
+- **cnt**: total jumlah peminjam sepeda (total peminjam sepeda baik itu casual ataupun registered)
+"""
+
+st.write(attributes)
+
 # Title of the dashboard
 st.title('Analisis Peminjaman Sepeda')
 
