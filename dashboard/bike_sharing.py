@@ -84,18 +84,29 @@ data_2012 = data[data['yr'] == 1]  # Filter for the year 2012 (1 represents 2012
 # Group data by month and calculate total rentals for each month
 monthly_data = data_2012.groupby('mnth')['cnt'].sum().reset_index()
 
-# Scatter plot of month vs total rentals
-scatter_chart = alt.Chart(monthly_data).mark_circle(size=60).encode(
-    x=alt.X('mnth', title='Month'),
+# Add month names to the data for better readability
+month_names = ['January', 'February', 'March', 'April', 'May', 'June', 
+               'July', 'August', 'September', 'October', 'November', 'December']
+monthly_data['month_name'] = monthly_data['mnth'].apply(lambda x: month_names[x - 1])
+
+# Line and scatter plot of month vs total rentals
+scatter_chart = alt.Chart(monthly_data).mark_circle(size=60, color='blue').encode(
+    x=alt.X('month_name', title='Month', sort=month_names),  # Sort the months properly
     y=alt.Y('cnt', title='Total Rentals'),
-    tooltip=['mnth', 'cnt']
-).properties(
-    title="Scatter Plot of Total Rentals by Month in 2012"
+    tooltip=['month_name', 'cnt']
 )
 
+line_chart = alt.Chart(monthly_data).mark_line(color='green').encode(
+    x=alt.X('month_name', title='Month', sort=month_names),
+    y=alt.Y('cnt', title='Total Rentals')
+)
+
+# Combine scatter and line chart
+combined_chart = scatter_chart + line_chart
+
 # Streamlit title and plot
-st.title("Grafik Scatter Jumlah Peminjaman Sepeda per Bulan di Tahun 2012")
-st.altair_chart(scatter_chart, use_container_width=True)
+st.title("Grafik Scatter dan Garis Jumlah Peminjaman Sepeda per Bulan di Tahun 2012")
+st.altair_chart(combined_chart, use_container_width=True)
 
 # Menamai setiap tahun
 year_mapping = {0: '2011', 1: '2012'}
