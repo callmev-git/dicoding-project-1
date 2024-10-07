@@ -23,6 +23,7 @@ st.markdown("""
 # Load the dataset
 data = pd.read_csv('https://raw.githubusercontent.com/callmev-git/dicoding-project-1/main/Bike-sharing-dataset/hour.csv')
 
+st.write("**Atribut Dataset**")
 attributes = """
 - **instant**: index
 - **dteday** : tanggal penyewaan sepeda
