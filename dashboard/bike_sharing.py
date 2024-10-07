@@ -77,13 +77,6 @@ st.pyplot(fig)
 # Question 3: Pada tahun berapa peminjaman sepeda tertinggi?
 st.header('Distribusi Peminjaman Sepeda Setiap Tahun')
 
-import streamlit as st
-import pandas as pd
-import altair as alt
-
-# Load the data
-data = pd.read_csv('hour (1).csv')
-
 # Convert 'dteday' to datetime
 data['dteday'] = pd.to_datetime(data['dteday'])
 
