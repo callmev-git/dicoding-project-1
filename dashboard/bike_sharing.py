@@ -60,9 +60,6 @@ st.line_chart(filtered_data.groupby('temp')['cnt'].mean())
 
 # Question 2: Pengaruh Musim terhadap Total Peminjaman Sepeda
 st.header('Pengaruh Musim terhadap Total Peminjaman Sepeda')
-st.markdown("""
-Musim memengaruhi peminjaman sepeda
-""")
 
 # Menamai setiap musim
 season_mapping = {1: 'Musim Semi', 2: 'Musim Panas', 3: 'Musim Gugur', 4: 'Musim Dingin'}
@@ -78,9 +75,6 @@ st.pyplot(fig)
 
 # Question 3: Pada tahun berapa peminjaman sepeda tertinggi?
 st.header('Distribusi Peminjaman Sepeda Setiap Tahun')
-st.markdown("""
-Peminjaman terbanyak terdapat pada tahun 2012 sebanyak 2049576 pengguna
-""")
 
 # Menamai setiap tahun
 year_mapping = {0: '2011', 1: '2012'}
@@ -93,11 +87,12 @@ ax.set_title('Distribusi Peminjaman Sepeda Setiap Tahun')
 ax.axis('equal')  # Equal aspect ratio ensures the pie is drawn as a circle.
 st.pyplot(fig)
 
+st.markdown("""
+Peminjaman terbanyak terdapat pada tahun 2012 sebanyak 2049576 pengguna
+""")
+
 # Question 4: Pada bulan apa setiap tahunnya peminjaman sepeda tertinggi?
 st.header('Distribusi Peminjaman Sepeda Setiap Bulan')
-st.markdown("""
-Peminjaman terbanyak terdapat pada bulan Juni untuk tahun 2011 dan bulan September untuk tahun 2012
-""")
 
 # Pisahkan data berdasarkan tahun
 data_2011 = data[data['yr'] == 0]  # 2011
@@ -124,6 +119,9 @@ ax2.set_title('Distribusi Peminjaman Sepeda Tahun 2012')
 ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
 st.pyplot(fig)
+st.markdown("""
+Peminjaman terbanyak terdapat pada bulan Juni untuk tahun 2011 dan bulan September untuk tahun 2012
+""")
 
 # Membuat kesimpulan
 st.header("Conclusion")
