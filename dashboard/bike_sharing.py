@@ -23,24 +23,6 @@ st.markdown("""
 # Load the dataset
 data = pd.read_csv('https://raw.githubusercontent.com/callmev-git/dicoding-project-1/main/Bike-sharing-dataset/hour.csv')
 
-# Sidebar for filtering temperature
-min_temp = float(data['temp'].min())
-max_temp = float(data['temp'].max())
-temp_filter = st.sidebar.slider('Filter Suhu', min_temp, max_temp, (min_temp, max_temp))
-
-# Filter the data based on temperature
-filtered_data = data[(data['temp'] >= temp_filter[0]) & (data['temp'] <= temp_filter[1])]
-
-# Calculate average rentals in the filtered data
-average_rentals = filtered_data['cnt'].mean()
-
-# Display the filtered data
-st.write(f"Menampilkan data untuk suhu antara {temp_filter[0]} dan {temp_filter[1]}")
-st.write(f"Rata-rata peminjaman sepeda: {average_rentals:.2f}")
-
-# Plot total rentals against temperature
-st.line_chart(filtered_data.groupby('temp')['cnt'].mean())
-
 # Title of the dashboard
 st.title('Analisis Peminjaman Sepeda')
 
@@ -60,6 +42,24 @@ ax.set_title('Hubungan Suhu dengan Total Peminjaman Sepeda')
 ax.set_xlabel('Suhu (Normalized)')
 ax.set_ylabel('Total Peminjaman Sepeda')
 st.pyplot(fig)
+
+# Sidebar for filtering temperature
+min_temp = float(data['temp'].min())
+max_temp = float(data['temp'].max())
+temp_filter = st.sidebar.slider('Filter Suhu', min_temp, max_temp, (min_temp, max_temp))
+
+# Filter the data based on temperature
+filtered_data = data[(data['temp'] >= temp_filter[0]) & (data['temp'] <= temp_filter[1])]
+
+# Calculate average rentals in the filtered data
+average_rentals = filtered_data['cnt'].mean()
+
+# Display the filtered data
+st.write(f"Menampilkan data untuk suhu antara {temp_filter[0]} dan {temp_filter[1]}")
+st.write(f"Rata-rata peminjaman sepeda: {average_rentals:.2f}")
+
+# Plot total rentals against temperature
+st.line_chart(filtered_data.groupby('temp')['cnt'].mean())
 
 # Question 2: Pengaruh Musim terhadap Total Peminjaman Sepeda
 st.header('Pengaruh Musim terhadap Total Peminjaman Sepeda')
