@@ -85,8 +85,7 @@ data_2012 = data[data['yr'] == 1]  # Filter for the year 2012 (1 represents 2012
 monthly_data = data_2012.groupby('mnth')['cnt'].sum().reset_index()
 
 # Add month names to the data for better readability
-month_names = ['January', 'February', 'March', 'April', 'May', 'June', 
-               'July', 'August', 'September', 'October', 'November', 'December']
+month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 monthly_data['month_name'] = monthly_data['mnth'].apply(lambda x: month_names[x - 1])
 
 # Line and scatter plot of month vs total rentals
@@ -97,8 +96,8 @@ scatter_chart = alt.Chart(monthly_data).mark_circle(size=60, color='blue').encod
 )
 
 line_chart = alt.Chart(monthly_data).mark_line(color='green').encode(
-    x=alt.X('month_name', title='Month', sort=month_names),
-    y=alt.Y('cnt', title='Total Rentals')
+    x=alt.X('month_name', title='Bulan', sort=month_names),
+    y=alt.Y('cnt', title='Total Peminjaman')
 )
 
 # Combine scatter and line chart
