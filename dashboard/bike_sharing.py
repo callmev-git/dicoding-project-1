@@ -23,6 +23,21 @@ st.markdown("""
 # Load the dataset
 data = pd.read_csv('https://raw.githubusercontent.com/callmev-git/dicoding-project-1/main/Bike-sharing-dataset/hour.csv')
 
+# Sidebar for filtering temperature
+min_temp = float(data['temp'].min())
+max_temp = float(data['temp'].max())
+temp_filter = st.sidebar.slider('Filter Suhu', min_temp, max_temp, (min_temp, max_temp))
+
+# Filter the data based on temperature
+filtered_data = data[(data['temp'] >= temp_filter[0]) & (data['temp'] <= temp_filter[1])]
+
+# Display the filtered data
+st.write(f"Menampilkan data untuk suhu antara {temp_filter[0]} dan {temp_filter[1]}")
+st.dataframe(filtered_data[['dteday', 'hr', 'temp', 'cnt']])
+
+# Plot total rentals by hour
+st.line_chart(filtered_data.groupby('hr')['cnt'].mean())
+
 # Title of the dashboard
 st.title('Analisis Peminjaman Sepeda')
 
@@ -31,7 +46,6 @@ st.header('Pengaruh Suhu terhadap Total Peminjaman Sepeda')
 st.markdown("""
 Suhu memengaruhi total peminjaman sepeda
 """)
-
 
 # Membuat Clustering untuk Temperatur
 data["temp_bins"] = pd.cut(data["temp"], bins=11, labels=range(0, 11))
