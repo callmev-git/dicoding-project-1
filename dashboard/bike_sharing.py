@@ -28,9 +28,6 @@ st.title('Analisis Peminjaman Sepeda')
 
 # Question 1: Pengaruh Suhu terhadap Total Peminjaman Sepeda
 st.header('Pengaruh Suhu terhadap Total Peminjaman Sepeda')
-st.markdown("""
-Suhu memengaruhi total peminjaman sepeda
-""")
 
 # Membuat Clustering untuk Temperatur
 data["temp_bins"] = pd.cut(data["temp"], bins=11, labels=range(0, 11))
