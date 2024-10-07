@@ -31,12 +31,15 @@ temp_filter = st.sidebar.slider('Filter Suhu', min_temp, max_temp, (min_temp, ma
 # Filter the data based on temperature
 filtered_data = data[(data['temp'] >= temp_filter[0]) & (data['temp'] <= temp_filter[1])]
 
+# Calculate average rentals in the filtered data
+average_rentals = filtered_data['cnt'].mean()
+
 # Display the filtered data
 st.write(f"Menampilkan data untuk suhu antara {temp_filter[0]} dan {temp_filter[1]}")
-st.dataframe(filtered_data[['dteday', 'hr', 'temp', 'cnt']])
+st.write(f"Rata-rata peminjaman sepeda: {average_rentals:.2f}")
 
-# Plot total rentals by hour
-st.line_chart(filtered_data.groupby('hr')['cnt'].mean())
+# Plot total rentals against temperature
+st.line_chart(filtered_data.groupby('temp')['cnt'].mean())
 
 # Title of the dashboard
 st.title('Analisis Peminjaman Sepeda')
