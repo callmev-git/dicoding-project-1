@@ -76,6 +76,26 @@ st.pyplot(fig)
 # Question 3: Pada tahun berapa peminjaman sepeda tertinggi?
 st.header('Distribusi Peminjaman Sepeda Setiap Tahun')
 
+# Filter data for the year 2012
+data['dteday'] = pd.to_datetime(data['dteday'])  # Convert 'dteday' to datetime
+data_2012 = data[data['yr'] == 1]  # Filter for the year 2012 (1 represents 2012)
+
+# Group data by month and calculate total rentals for each month
+monthly_data = data_2012.groupby('mnth')['cnt'].sum().reset_index()
+
+# Scatter plot of month vs total rentals
+scatter_chart = alt.Chart(monthly_data).mark_circle(size=60).encode(
+    x=alt.X('mnth', title='Month'),
+    y=alt.Y('cnt', title='Total Rentals'),
+    tooltip=['mnth', 'cnt']
+).properties(
+    title="Scatter Plot of Total Rentals by Month in 2012"
+)
+
+# Streamlit title and plot
+st.title("Grafik Scatter Jumlah Peminjaman Sepeda per Bulan di Tahun 2012")
+st.altair_chart(scatter_chart, use_container_width=True)
+
 # Menamai setiap tahun
 year_mapping = {0: '2011', 1: '2012'}
 data['year_name'] = data['yr'].map(year_mapping)
