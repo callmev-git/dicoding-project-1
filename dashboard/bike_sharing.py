@@ -81,8 +81,8 @@ st.header('Distribusi Peminjaman Sepeda Setiap Tahun')
 data['dteday'] = pd.to_datetime(data['dteday'])
 
 # Add month names to the data for better readability
-months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-data['months'] = data['mnth'].apply(lambda x: month_names[x - 1])
+month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+data['month_name'] = data['mnth'].apply(lambda x: month_names[x - 1])
 
 # Filter data for the years 2011 and 2012
 data_2011 = data[data['yr'] == 0]  # 0 represents the year 2011
@@ -100,29 +100,29 @@ monthly_data_2011 = data_2011_filtered.groupby('mnth')['cnt'].sum().reset_index(
 monthly_data_2011['month_name'] = monthly_data_2011['mnth'].apply(lambda x: month_names[x - 1])
 
 monthly_data_2012 = data_2012_filtered.groupby('mnth')['cnt'].sum().reset_index()
-monthly_data_2012['months'] = monthly_data_2012['mnth'].apply(lambda x: month_names[x - 1])
+monthly_data_2012['month_name'] = monthly_data_2012['mnth'].apply(lambda x: month_names[x - 1])
 
 # Scatter and line plot for 2011
 scatter_chart_2011 = alt.Chart(monthly_data_2011).mark_circle(size=60, color='blue').encode(
-    x=alt.X('months', title='Month', sort=month_names),
-    y=alt.Y('cnt', title='Total Rentals'),
+    x=alt.X('month_name', title='Bulan', sort=month_names),
+    y=alt.Y('cnt', title='Total Peminjaman'),
     tooltip=['month_name', 'cnt']
 )
 
 line_chart_2011 = alt.Chart(monthly_data_2011).mark_line(color='blue').encode(
-    x=alt.X('months', title='Month', sort=month_names),
-    y=alt.Y('cnt', title='Total Rentals')
+    x=alt.X('month_name', title='Bulan', sort=month_names),
+    y=alt.Y('cnt', title='Total Peminjaman')
 )
 
 # Scatter and line plot for 2012
 scatter_chart_2012 = alt.Chart(monthly_data_2012).mark_circle(size=60, color='blue').encode(
-    x=alt.X('months', title='Bulan', sort=month_names),
+    x=alt.X('month_name', title='Bulan', sort=month_names),
     y=alt.Y('cnt', title='Total Peminjaman'),
     tooltip=['month_name', 'cnt']
 )
 
 line_chart_2012 = alt.Chart(monthly_data_2012).mark_line(color='blue').encode(
-    x=alt.X('months', title='Bulan', sort=month_names),
+    x=alt.X('month_name', title='Bulan', sort=month_names),
     y=alt.Y('cnt', title='Total Peminjaman')
 )
 
