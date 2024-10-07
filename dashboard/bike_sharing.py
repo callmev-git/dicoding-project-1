@@ -77,35 +77,76 @@ st.pyplot(fig)
 # Question 3: Pada tahun berapa peminjaman sepeda tertinggi?
 st.header('Distribusi Peminjaman Sepeda Setiap Tahun')
 
-# Filter data for the year 2012
-data['dteday'] = pd.to_datetime(data['dteday'])  # Convert 'dteday' to datetime
-data_2012 = data[data['yr'] == 1]  # Filter for the year 2012 (1 represents 2012)
+import streamlit as st
+import pandas as pd
+import altair as alt
 
-# Group data by month and calculate total rentals for each month
-monthly_data = data_2012.groupby('mnth')['cnt'].sum().reset_index()
+# Load the data
+data = pd.read_csv('hour (1).csv')
+
+# Convert 'dteday' to datetime
+data['dteday'] = pd.to_datetime(data['dteday'])
 
 # Add month names to the data for better readability
-month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-monthly_data['month_name'] = monthly_data['mnth'].apply(lambda x: month_names[x - 1])
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+data['months'] = data['mnth'].apply(lambda x: month_names[x - 1])
 
-# Line and scatter plot of month vs total rentals
-scatter_chart = alt.Chart(monthly_data).mark_circle(size=60, color='blue').encode(
-    x=alt.X('month_name', title='Month', sort=month_names),  # Sort the months properly
+# Filter data for the years 2011 and 2012
+data_2011 = data[data['yr'] == 0]  # 0 represents the year 2011
+data_2012 = data[data['yr'] == 1]  # 1 represents the year 2012
+
+# Sidebar filter for months
+selected_months = st.sidebar.multiselect('Pilih Bulan', month_names, default=month_names)
+
+# Filter data based on selected months
+data_2011_filtered = data_2011[data_2011['month_name'].isin(selected_months)]
+data_2012_filtered = data_2012[data_2012['month_name'].isin(selected_months)]
+
+# Group data by month and calculate total rentals for each month
+monthly_data_2011 = data_2011_filtered.groupby('mnth')['cnt'].sum().reset_index()
+monthly_data_2011['month_name'] = monthly_data_2011['mnth'].apply(lambda x: month_names[x - 1])
+
+monthly_data_2012 = data_2012_filtered.groupby('mnth')['cnt'].sum().reset_index()
+monthly_data_2012['months'] = monthly_data_2012['mnth'].apply(lambda x: month_names[x - 1])
+
+# Scatter and line plot for 2011
+scatter_chart_2011 = alt.Chart(monthly_data_2011).mark_circle(size=60, color='blue').encode(
+    x=alt.X('months', title='Month', sort=month_names),
     y=alt.Y('cnt', title='Total Rentals'),
     tooltip=['month_name', 'cnt']
 )
 
-line_chart = alt.Chart(monthly_data).mark_line(color='white').encode(
-    x=alt.X('month_name', title='Bulan', sort=month_names),
+line_chart_2011 = alt.Chart(monthly_data_2011).mark_line(color='blue').encode(
+    x=alt.X('months', title='Month', sort=month_names),
+    y=alt.Y('cnt', title='Total Rentals')
+)
+
+# Scatter and line plot for 2012
+scatter_chart_2012 = alt.Chart(monthly_data_2012).mark_circle(size=60, color='blue').encode(
+    x=alt.X('months', title='Bulan', sort=month_names),
+    y=alt.Y('cnt', title='Total Peminjaman'),
+    tooltip=['month_name', 'cnt']
+)
+
+line_chart_2012 = alt.Chart(monthly_data_2012).mark_line(color='blue').encode(
+    x=alt.X('months', title='Bulan', sort=month_names),
     y=alt.Y('cnt', title='Total Peminjaman')
 )
 
-# Combine scatter and line chart
-combined_chart = scatter_chart + line_chart
+# Combine scatter and line charts
+combined_chart_2011 = scatter_chart_2011 + line_chart_2011
+combined_chart_2012 = scatter_chart_2012 + line_chart_2012
 
-# Streamlit title and plot
-st.subheader("Grafik Peminjaman Sepeda per Bulan pada Tahun 2012")
-st.altair_chart(combined_chart, use_container_width=True)
+# Create two charts side by side
+left_column, right_column = st.columns(2)
+
+with left_column:
+    st.subheader("Tahun 2011")
+    st.altair_chart(combined_chart_2011, use_container_width=True)
+
+with right_column:
+    st.subheader("Tahun 2012")
+    st.altair_chart(combined_chart_2012, use_container_width=True)
 
 # Menamai setiap tahun
 year_mapping = {0: '2011', 1: '2012'}
