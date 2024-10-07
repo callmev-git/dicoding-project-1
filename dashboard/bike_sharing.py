@@ -104,7 +104,7 @@ line_chart = alt.Chart(monthly_data).mark_line(color='green').encode(
 combined_chart = scatter_chart + line_chart
 
 # Streamlit title and plot
-st.title("Grafik Scatter dan Garis Jumlah Peminjaman Sepeda per Bulan di Tahun 2012")
+st.subheader("Grafik Scatter dan Garis Jumlah Peminjaman Sepeda per Bulan di Tahun 2012")
 st.altair_chart(combined_chart, use_container_width=True)
 
 # Menamai setiap tahun
