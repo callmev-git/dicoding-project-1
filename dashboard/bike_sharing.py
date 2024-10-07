@@ -95,7 +95,7 @@ scatter_chart = alt.Chart(monthly_data).mark_circle(size=60, color='blue').encod
     tooltip=['month_name', 'cnt']
 )
 
-line_chart = alt.Chart(monthly_data).mark_line(color='green').encode(
+line_chart = alt.Chart(monthly_data).mark_line(color='white').encode(
     x=alt.X('month_name', title='Bulan', sort=month_names),
     y=alt.Y('cnt', title='Total Peminjaman')
 )
@@ -104,7 +104,7 @@ line_chart = alt.Chart(monthly_data).mark_line(color='green').encode(
 combined_chart = scatter_chart + line_chart
 
 # Streamlit title and plot
-st.subheader("Grafik Scatter dan Garis Jumlah Peminjaman Sepeda per Bulan di Tahun 2012")
+st.subheader("Grafik Peminjaman Sepeda per Bulan pada Tahun 2012")
 st.altair_chart(combined_chart, use_container_width=True)
 
 # Menamai setiap tahun
